@@ -20,3 +20,22 @@
  *************************************************************************/
 
 #include <cstdio>
+#include <opencv2/core/core.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <string>
+#include <boost/filesystem.hpp>
+
+int main(int argc, char *argv[])
+{
+    if (argc == 2)
+    {
+        printf("arg is %s\n", argv[0]);
+
+    }
+    else
+    {
+        printf("The usage is %s [InputFile].\n",argv[0]);
+    }
+    return 0;
+}
+
