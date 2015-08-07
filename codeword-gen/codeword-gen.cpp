@@ -112,9 +112,6 @@ int main(int argc, char *argv[])
             //Set the dictionary with the vocabulary we created in the first step
             CV_Assert( !vocabulary.empty() );
             dmatcher->add( std::vector<Mat>(1, vocabulary) );
-
-            //open the file to write the resultant descriptor
-            FileStorage fs1("descriptor.yml", FileStorage::WRITE);    
             
             //get SIFT descriptor on patches in whole image, with random size again
             Mat keypointDescriptors;
@@ -154,13 +151,15 @@ int main(int argc, char *argv[])
             }
 
             // Normalize image descriptor.
-            bowDescriptor /= keypointDescriptors.size().height;
+            //bowDescriptor /= keypointDescriptors.size().height;
             //********************** nkhEnd compute bowDescriptor **********************//
 
             //prepare the yml (some what similar to xml) file
             boost::filesystem::path filePath(argv[1]);
             //To store the image tag name - only for save the descriptor in a file
             string imageTag =  string(argv[2]) + "-" + filePath.stem().string();
+            //open the file to write the resultant descriptor
+            FileStorage fs1(string(imageTag + ".yml"), FileStorage::WRITE);    
             //write the new BoF descriptor to the file
             fs1 << imageTag << bowDescriptor;   
 
