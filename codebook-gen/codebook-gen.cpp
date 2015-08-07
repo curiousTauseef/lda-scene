@@ -75,7 +75,9 @@ Mat getDescriptors(Mat img)
     // call processing function of vl
     vl_dsift_process(vlf, &imgvec[0]);
     // echo number of keypoints found
-    cout << "num of patches: " << vl_dsift_get_keypoint_num(vlf) << endl;
+    cout << "num of patches: " << vl_dsift_get_keypoint_num(vlf) << 
+                  " patch size: " << 4*binSize << endl;
+
     //cout << "size is : " << vl_dsift_get_descriptor_size(vlf) << endl;
     int numKeys = vl_dsift_get_keypoint_num(vlf);
     int descrDim = vl_dsift_get_descriptor_size(vlf);
@@ -94,10 +96,14 @@ int main(int argc, char *argv[])
         //generate descriptors for each image
         for ( boost::filesystem::recursive_directory_iterator end, dir(argv[1]);
                 dir != end; ++dir ) {
+            if( is_directory(dir->path()) )
+                continue;
+
             Mat img;
-            if (nkhImread(img, dir->path().string())) //if exists
+            if (nkhImread(img, dir->path().string())) //if image exists
             {
                 //add patches descriptors to unclustered codebook 
+                cout << "Processing " << dir->path().string() << " ...\n" ; 
                 featuresUnclustered.push_back(getDescriptors(img));
             }
             else
@@ -116,13 +122,17 @@ int main(int argc, char *argv[])
         //Create the BoW (or BoF) trainer : Make sure you have enough images to
         // generate a number of pathces more than dictionarySize or you'll get an
         // Assertion failed (N >= K) in kmeans
+
+        printf("Running KMeans for K=%d  ... \n", dictionarySize );
         BOWKMeansTrainer bowTrainer(dictionarySize,tc,retries,flags);
         //cluster the feature vectors
         Mat dictionary=bowTrainer.cluster(featuresUnclustered);    
         //store the vocabulary
+        printf("Writing vocabulary to dictionary.yml ...\n");
         FileStorage fs("dictionary.yml", FileStorage::WRITE);
         fs << "vocabulary" << dictionary;
         fs.release();
+        printf("Done!\n");
     }
     else
     {
