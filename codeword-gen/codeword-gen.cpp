@@ -123,7 +123,6 @@ int main(int argc, char *argv[])
             //To store the BoW (or BoF) representation of the image
             Mat bowDescriptor;        
 
-            printf("Dirty debug before compute\n");           
             //********************** nkhStart compute bowDescriptor **********************//
             //extract BoW (or BoF) descriptor from given image : ported from opencv source
             //BOWImgDescriptorExtractor::
@@ -161,7 +160,7 @@ int main(int argc, char *argv[])
             //prepare the yml (some what similar to xml) file
             boost::filesystem::path filePath(argv[1]);
             //To store the image tag name - only for save the descriptor in a file
-            string imageTag = filePath.filename().string() + string(argv[2]);
+            string imageTag =  string(argv[2]) + "-" + filePath.stem().string();
             //write the new BoF descriptor to the file
             fs1 << imageTag << bowDescriptor;   
 
