@@ -78,7 +78,7 @@ Mat getDescriptors(Mat img)
     int descrDim = vl_dsift_get_descriptor_size(vlf);
 
     float* arr = new float[descrDim * numKeys];
-    copy(std::begin(vl_dsift_get_descriptors(vlf)), end(vl_dsift_get_descriptors(vlf)), begin(arr));
+    copy(vl_dsift_get_descriptors(vlf), vl_dsift_get_descriptors(vlf) + numKeys*descrDim, arr);
     Mat result = Mat(descrDim, numKeys, CV_32F, arr);
     return result;
 }
@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
 {
     if (argc == 2) 
     {
-
+        Mat descrs; 
         for ( boost::filesystem::recursive_directory_iterator end, dir(argv[1]);
                 dir != end; ++dir ) {
             Mat img;
@@ -95,7 +95,8 @@ int main(int argc, char *argv[])
             {
                 //imshow(dir->path().filename().string(), img);
                 //add patches descriptors to unclustered codebook 
-                getDescriptors(img);
+                descrs.push_back(getDescriptors(img));
+
             }
             //generate sifts
             //BOW Train
