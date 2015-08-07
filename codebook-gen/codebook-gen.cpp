@@ -119,10 +119,10 @@ int main(int argc, char *argv[])
         int retries=1;
         //necessary flags
         int flags=KMEANS_PP_CENTERS;
+        
         //Create the BoW (or BoF) trainer : Make sure you have enough images to
         // generate a number of pathces more than dictionarySize or you'll get an
         // Assertion failed (N >= K) in kmeans
-
         printf("Running KMeans for K=%d  ... \n", dictionarySize );
         BOWKMeansTrainer bowTrainer(dictionarySize,tc,retries,flags);
         //cluster the feature vectors
