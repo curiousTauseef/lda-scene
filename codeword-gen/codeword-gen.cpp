@@ -90,7 +90,7 @@ Mat getDescriptors(Mat img)
 
 int main(int argc, char *argv[])
 {
-    if (argc == 2) 
+    if (argc == 4) 
     {
         Mat featuresUnclustered; 
         //generate descriptors for each image
@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
 
             //prepare BOW descriptor extractor from the dictionary    
             Mat vocabulary; 
-            FileStorage fs("dictionary.yml", FileStorage::READ);
+            FileStorage fs(argv[3], FileStorage::READ);
             fs["vocabulary"] >> vocabulary;
             fs.release();    
 
@@ -177,7 +177,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-        printf("The usage is %s ImageFile label \n label is used to avoid confusion in repeated file names.\n",argv[0]);
+        printf("The usage is %s ImageFile label dictionary.yml \n label is used to avoid confusion in repeated file names.\n",argv[0]);
     }
     return 0;
 }
