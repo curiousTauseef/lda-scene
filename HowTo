@@ -4,4 +4,5 @@
 # Generate Codebook from training set, it will result in dictionary.yaml file
 ./codebook-gen/codebook-gen test/sample/
 
+# Generate data files used by LDA training (estimation) for all categories
 

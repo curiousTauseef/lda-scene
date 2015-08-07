@@ -1,4 +1,4 @@
-# Usage: ./chooseTrainSet CategoriesDIR numPerCategory outDir
+# Usage: ./chooseTrainSet categoriesDirectory numPerCategory outDirectory
 catDir="$1" #consists one folder per category, each consisting images.
 perCat="$2" #number of images per category.
 outDir="$3" #output directory in which training sets will be copied each in the same name directory as input 

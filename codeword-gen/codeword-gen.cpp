@@ -90,10 +90,9 @@ Mat getDescriptors(Mat img)
 
 int main(int argc, char *argv[])
 {
-    if (argc == 4) 
+    if (argc == 5) 
     {
-        Mat featuresUnclustered; 
-        //generate descriptors for each image
+        bool genYaml = (string(argv[4])=="--yaml") ? true : false ;
         Mat img;
         if (nkhImread(img, string(argv[1]))) //if image exists
         {
@@ -163,19 +162,21 @@ int main(int argc, char *argv[])
             // Normalize image descriptor.
             //bowDescriptor /= keypointDescriptors.size().height;
             //********************** nkhEnd compute bowDescriptor **********************//
+            if(genYaml)
+            {
+                //prepare the yml (some what similar to xml) file
+                boost::filesystem::path filePath(argv[1]);
+                //To store the image tag name - only for save the descriptor in a file
+                string imageTag =  string(argv[2]) + "_" + filePath.stem().string();
+                //open the file to write the resultant descriptor
+                FileStorage fs1(string(imageTag + ".yml"), FileStorage::WRITE);    
+                //write the new BoF descriptor to the file
+                fs1 << imageTag << bowDescriptor;   
 
-            //prepare the yml (some what similar to xml) file
-            boost::filesystem::path filePath(argv[1]);
-            //To store the image tag name - only for save the descriptor in a file
-            string imageTag =  string(argv[2]) + "_" + filePath.stem().string();
-            //open the file to write the resultant descriptor
-            FileStorage fs1(string(imageTag + ".yml"), FileStorage::WRITE);    
-            //write the new BoF descriptor to the file
-            fs1 << imageTag << bowDescriptor;   
-
-            //use this descriptor for classifying the image.
-            //release the file storage
-            fs1.release();
+                //use this descriptor for classifying the image.
+                //release the file storage
+                fs1.release();
+            }
             //*************************** nkhEnd BOW ***************************/ 
 
         }
@@ -186,7 +187,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-        printf("The usage is %s ImageFile label dictionary.yml \n label is used to avoid confusion in repeated file names.\n",argv[0]);
+        printf("The usage is %s ImageFile label dictionary.yml --yaml/--no-yaml \n label is used to avoid confusion in repeated file names.\n",argv[0]);
     }
     return 0;
 }
