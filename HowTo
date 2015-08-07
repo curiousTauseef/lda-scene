@@ -1,8 +1,12 @@
 # Choose training set, 50 images from eash category: fei-fei, CVPR 2005
+# You can run these command in the project root directory where this howto
+#   is placed, else do proper modifications.
 ./scripts/chooseTrainSet.sh test/SceneClass13/ 50 test/sample/
 
 # Generate Codebook from training set, it will result in dictionary.yaml file
 ./codebook-gen/codebook-gen test/sample/
 
 # Generate data files used by LDA training (estimation) for all categories
-
+#  check if the corect path for codeword-gen is used in the script
+./scripts/dataGeneration.sh test/sample/ ./data/ dictionary.yml
+ 
