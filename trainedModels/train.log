@@ -1,0 +1,131 @@
+Number of documents          = 50
+Number of words              = 200
+Number of latent classes     = 40
+Number of outer EM iteration = 100
+Number of inner EM iteration = 20
+Convergence threshold        = 0.0001
+iteration 32/100..	PPL = 97.18956	ETA: 0:00:02 (0 sec/step)
+converged. [ 0:00:01]
+writing model..
+done.
+Number of documents          = 50
+Number of words              = 200
+Number of latent classes     = 40
+Number of outer EM iteration = 100
+Number of inner EM iteration = 20
+Convergence threshold        = 0.0001
+iteration 44/100..	PPL = 89.40776	ETA: 0:00:01 (0 sec/step)
+converged. [ 0:00:01]
+writing model..
+done.
+Number of documents          = 50
+Number of words              = 200
+Number of latent classes     = 40
+Number of outer EM iteration = 100
+Number of inner EM iteration = 20
+Convergence threshold        = 0.0001
+iteration 69/100..	PPL = 86.02716	ETA: 0:00:00 (0 sec/step)
+converged. [ 0:00:02]
+writing model..
+done.
+Number of documents          = 50
+Number of words              = 200
+Number of latent classes     = 40
+Number of outer EM iteration = 100
+Number of inner EM iteration = 20
+Convergence threshold        = 0.0001
+iteration 54/100..	PPL = 88.72699	ETA: 0:00:00 (0 sec/step)
+converged. [ 0:00:01]
+writing model..
+done.
+Number of documents          = 50
+Number of words              = 200
+Number of latent classes     = 40
+Number of outer EM iteration = 100
+Number of inner EM iteration = 20
+Convergence threshold        = 0.0001
+iteration 96/100..	PPL = 55.2690	ETA: 0:00:00 (0 sec/step)
+converged. [ 0:00:02]
+writing model..
+done.
+Number of documents          = 50
+Number of words              = 200
+Number of latent classes     = 40
+Number of outer EM iteration = 100
+Number of inner EM iteration = 20
+Convergence threshold        = 0.0001
+iteration 59/100..	PPL = 42.9328	ETA: 0:00:01 (0 sec/step)
+converged. [ 0:00:02]
+writing model..
+done.
+Number of documents          = 50
+Number of words              = 200
+Number of latent classes     = 40
+Number of outer EM iteration = 100
+Number of inner EM iteration = 20
+Convergence threshold        = 0.0001
+iteration 60/100..	PPL = 82.59895	ETA: 0:00:00 (0 sec/step)
+converged. [ 0:00:01]
+writing model..
+done.
+Number of documents          = 50
+Number of words              = 200
+Number of latent classes     = 40
+Number of outer EM iteration = 100
+Number of inner EM iteration = 20
+Convergence threshold        = 0.0001
+iteration 49/100..	PPL = 75.96283	ETA: 0:00:01 (0 sec/step)
+converged. [ 0:00:01]
+writing model..
+done.
+Number of documents          = 50
+Number of words              = 200
+Number of latent classes     = 40
+Number of outer EM iteration = 100
+Number of inner EM iteration = 20
+Convergence threshold        = 0.0001
+iteration 64/100..	PPL = 71.94866	ETA: 0:00:01 (0 sec/step)
+converged. [ 0:00:02]
+writing model..
+done.
+Number of documents          = 50
+Number of words              = 200
+Number of latent classes     = 40
+Number of outer EM iteration = 100
+Number of inner EM iteration = 20
+Convergence threshold        = 0.0001
+iteration 51/100..	PPL = 48.8810	ETA: 0:00:01 (0 sec/step)
+converged. [ 0:00:01]
+writing model..
+done.
+Number of documents          = 50
+Number of words              = 200
+Number of latent classes     = 40
+Number of outer EM iteration = 100
+Number of inner EM iteration = 20
+Convergence threshold        = 0.0001
+iteration 67/100..	PPL = 86.17748	ETA: 0:00:01 (0 sec/step)
+converged. [ 0:00:02]
+writing model..
+done.
+Number of documents          = 50
+Number of words              = 200
+Number of latent classes     = 40
+Number of outer EM iteration = 100
+Number of inner EM iteration = 20
+Convergence threshold        = 0.0001
+iteration 46/100..	PPL = 74.19228	ETA: 0:00:01 (0 sec/step)
+converged. [ 0:00:01]
+writing model..
+done.
+Number of documents          = 50
+Number of words              = 200
+Number of latent classes     = 40
+Number of outer EM iteration = 100
+Number of inner EM iteration = 20
+Convergence threshold        = 0.0001
+iteration 66/100..	PPL = 87.89687	ETA: 0:00:01 (0 sec/step)
+converged. [ 0:00:02]
+writing model..
+done.
+
