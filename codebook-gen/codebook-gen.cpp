@@ -136,7 +136,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-        printf("The usage is %s ImageFile .\n",argv[0]);
+        printf("The usage is %s trainDirectory \n",argv[0]);
     }
     return 0;
 }

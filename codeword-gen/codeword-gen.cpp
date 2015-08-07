@@ -97,90 +97,87 @@ int main(int argc, char *argv[])
         Mat img;
         if (nkhImread(img, string(argv[1]))) //if image exists
         {
-            //add patches descriptors to unclustered codebook 
-            //cout << "Processing " << dir->path().string() << " ...\n" ; 
             //featuresUnclustered.push_back(getDescriptors(img));
 
+            //*************************** nkhStart BOW ***************************/ 
 
             //prepare BOW descriptor extractor from the dictionary    
-            Mat dictionary; 
+            Mat vocabulary; 
             FileStorage fs("dictionary.yml", FileStorage::READ);
-            fs["vocabulary"] >> dictionary;
+            fs["vocabulary"] >> vocabulary;
             fs.release();    
 
             //create a nearest neighbor matcher
-            Ptr<DescriptorMatcher> matcher(new FlannBasedMatcher);
-
-            //create Sift feature point extracter
-            Ptr<FeatureDetector> detector(new SiftFeatureDetector());
-            //create Sift descriptor extractor
-            Ptr<DescriptorExtractor> extractor(new SiftDescriptorExtractor);    
-
-            //create BoF (or BoW) descriptor extractor
-            BOWImgDescriptorExtractor bowDE(extractor,matcher);
-
+            Ptr<DescriptorMatcher> dmatcher(new FlannBasedMatcher);
             //Set the dictionary with the vocabulary we created in the first step
-            bowDE.setVocabulary(dictionary);
+            CV_Assert( !vocabulary.empty() );
+            dmatcher->add( std::vector<Mat>(1, vocabulary) );
 
             //open the file to write the resultant descriptor
             FileStorage fs1("descriptor.yml", FileStorage::WRITE);    
-
-            //To store the keypoints that will be extracted by SIFT
-            vector<KeyPoint> keypoints;        
-            //Detect SIFT keypoints (or feature points)
             
-            detector->detect(img,keypoints);
-
-
+            //get SIFT descriptor on patches in whole image, with random size again
+            Mat keypointDescriptors;
+            keypointDescriptors = getDescriptors(img);
 
             //To store the BoW (or BoF) representation of the image
             Mat bowDescriptor;        
-            //extract BoW (or BoF) descriptor from given image
-            bowDE.compute(img,keypoints,bowDescriptor);
+            
+            //********************** nkhStart compute bowDescriptor **********************//
+            //extract BoW (or BoF) descriptor from given image : ported from opencv source
+            //BOWImgDescriptorExtractor::
+            //        compute( _descriptors, imgDescriptor, pointIdxsOfClusters i)
+
+            int clusterCount  = vocabulary.rows;
+
+            // Match keypoint descriptors to cluster center (to vocabulary)
+            std::vector<DMatch> matches;
+            dmatcher->match( keypointDescriptors, matches );
+
+            // Compute image descriptor
+            std::vector<std::vector<int> >* pointIdxsOfClusters;
+            pointIdxsOfClusters->resize(clusterCount);
+
+            bowDescriptor.create(1, clusterCount, CV_32FC1); 
+            bowDescriptor.setTo(Scalar::all(0));
+
+            float *dptr = bowDescriptor.ptr<float>();
+            for( size_t i = 0; i < matches.size(); i++ )
+            {
+                int queryIdx = matches[i].queryIdx;
+                int trainIdx = matches[i].trainIdx; // cluster index
+                CV_Assert( queryIdx == (int)i );
+
+                dptr[trainIdx] = dptr[trainIdx] + 1.f;
+                if( pointIdxsOfClusters )
+                    (*pointIdxsOfClusters)[trainIdx].push_back( queryIdx );
+            }
+
+            // Normalize image descriptor.
+            bowDescriptor /= keypointDescriptors.size().height;
+            //********************** nkhEnd compute bowDescriptor **********************//
 
             //prepare the yml (some what similar to xml) file
             boost::filesystem::path filePath(argv[1]);
             //To store the image tag name - only for save the descriptor in a file
-            string imageTag = path.filename() + string(argv[2]);
+            string imageTag = filePath.filename().string() + string(argv[2]);
             //write the new BoF descriptor to the file
-            fs1 << imageTag << bowDescriptor;        
+            fs1 << imageTag << bowDescriptor;   
 
-            //You may use this descriptor for classifying the image.
-
+            //use this descriptor for classifying the image.
             //release the file storage
             fs1.release();
+            //*************************** nkhEnd BOW ***************************/ 
+
         }
         else
         {
             cerr << "file " << argv[1] << " does not exist!\n" ;
         }
-        return 0 ; 
-        //BOW Train
-        int dictionarySize=200;
-        //define Term Criteria
-        TermCriteria tc(CV_TERMCRIT_ITER,100,0.001);
-        //retries number
-        int retries=1;
-        //necessary flags
-        int flags=KMEANS_PP_CENTERS;
-        //Create the BoW (or BoF) trainer : Make sure you have enough images to
-        // generate a number of pathces more than dictionarySize or you'll get an
-        // Assertion failed (N >= K) in kmeans
-
-        printf("Running KMeans for K=%d  ... \n", dictionarySize );
-        BOWKMeansTrainer bowTrainer(dictionarySize,tc,retries,flags);
-        //cluster the feature vectors
-        Mat dictionary=bowTrainer.cluster(featuresUnclustered);    
-        //store the vocabulary
-        printf("Writing vocabulary to dictionary.yml ...\n");
-        FileStorage fs("dictionary.yml", FileStorage::WRITE);
-        fs << "vocabulary" << dictionary;
-        fs.release();
-        printf("Done!\n");
     }
     else
     {
-        printf("The usage is %s ImageFile label .\n label is used to avoid confusion in repeated file names.\n",argv[0]);
+        printf("The usage is %s ImageFile label \n label is used to avoid confusion in repeated file names.\n",argv[0]);
     }
     return 0;
 }
