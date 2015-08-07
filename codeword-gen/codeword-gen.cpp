@@ -122,7 +122,8 @@ int main(int argc, char *argv[])
 
             //To store the BoW (or BoF) representation of the image
             Mat bowDescriptor;        
-            
+
+            printf("Dirty debug before compute\n");           
             //********************** nkhStart compute bowDescriptor **********************//
             //extract BoW (or BoF) descriptor from given image : ported from opencv source
             //BOWImgDescriptorExtractor::
@@ -135,8 +136,8 @@ int main(int argc, char *argv[])
             dmatcher->match( keypointDescriptors, matches );
 
             // Compute image descriptor
-            std::vector<std::vector<int> >* pointIdxsOfClusters;
-            pointIdxsOfClusters->resize(clusterCount);
+            std::vector<std::vector<int> > pointIdxsOfClusters;
+            pointIdxsOfClusters.resize(clusterCount);
 
             bowDescriptor.create(1, clusterCount, CV_32FC1); 
             bowDescriptor.setTo(Scalar::all(0));
@@ -149,8 +150,8 @@ int main(int argc, char *argv[])
                 CV_Assert( queryIdx == (int)i );
 
                 dptr[trainIdx] = dptr[trainIdx] + 1.f;
-                if( pointIdxsOfClusters )
-                    (*pointIdxsOfClusters)[trainIdx].push_back( queryIdx );
+                if( &pointIdxsOfClusters )
+                    pointIdxsOfClusters[trainIdx].push_back( queryIdx );
             }
 
             // Normalize image descriptor.
