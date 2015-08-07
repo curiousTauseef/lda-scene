@@ -75,8 +75,8 @@ Mat getDescriptors(Mat img)
     // call processing function of vl
     vl_dsift_process(vlf, &imgvec[0]);
     // echo number of keypoints found
-    cout << "num of patches: " << vl_dsift_get_keypoint_num(vlf) << 
-                  " patch size: " << 4*binSize << endl;
+    /* cout << "num of patches: " << vl_dsift_get_keypoint_num(vlf) << 
+                  " patch size: " << 4*binSize << endl; */
 
     //cout << "size is : " << vl_dsift_get_descriptor_size(vlf) << endl;
     int numKeys = vl_dsift_get_keypoint_num(vlf);
@@ -149,7 +149,17 @@ int main(int argc, char *argv[])
                 if( &pointIdxsOfClusters )
                     pointIdxsOfClusters[trainIdx].push_back( queryIdx );
             }
-
+            
+            //print Blei fromat for Latent Dirichlet Allocation (LDA) by Daichi Mochihashi
+            //available at http://chasen.org/~daiti-m/dist/lda/ 
+            for( int i = 0; i < clusterCount; i++ )
+            {
+                if(dptr[i] != 0)
+                {
+                    printf("%d:%d ", i+1, pointIdxsOfClusters[i].size());
+                }
+            }
+            printf("\n");
             // Normalize image descriptor.
             //bowDescriptor /= keypointDescriptors.size().height;
             //********************** nkhEnd compute bowDescriptor **********************//
@@ -157,7 +167,7 @@ int main(int argc, char *argv[])
             //prepare the yml (some what similar to xml) file
             boost::filesystem::path filePath(argv[1]);
             //To store the image tag name - only for save the descriptor in a file
-            string imageTag =  string(argv[2]) + "-" + filePath.stem().string();
+            string imageTag =  string(argv[2]) + "_" + filePath.stem().string();
             //open the file to write the resultant descriptor
             FileStorage fs1(string(imageTag + ".yml"), FileStorage::WRITE);    
             //write the new BoF descriptor to the file
