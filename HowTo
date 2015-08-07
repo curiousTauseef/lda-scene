@@ -1,1 +1,7 @@
+# Choose training set, 50 images from eash category: fei-fei, CVPR 2005
 ./scripts/chooseTrainSet.sh test/SceneClass13/ 50 test/sample/
+
+# Generate Codebook from training set, it will result in dictionary.yaml file
+./codebook-gen/codebook-gen test/sample/
+
+
