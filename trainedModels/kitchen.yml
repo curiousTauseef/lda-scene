@@ -1,0 +1,6 @@
+%YAML:1.0
+kitchen_image_0135: !!opencv-matrix
+   rows: $rows
+   cols: $cols
+   dt: f
+   data: [ $data ]
