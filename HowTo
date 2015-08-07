@@ -9,4 +9,8 @@
 # Generate data files used by LDA training (estimation) for all categories
 #  check if the corect path for codeword-gen is used in the script
 ./scripts/dataGeneration.sh test/sample/ ./data/ dictionary.yml
+
+# Train for all categories
+./scripts/trainModels.sh ./data/ ./trainedModels/
+
  
