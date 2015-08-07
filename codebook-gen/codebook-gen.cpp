@@ -30,6 +30,8 @@
 #include <string>
 #include <boost/filesystem.hpp>
 #include <iterator>
+#include <cstdlib>
+#include <ctime>
 using namespace std;
 using namespace cv;
 
@@ -38,6 +40,8 @@ extern "C" {
       #include <vl/dsift.h>
 }
 
+#define MIN_BINS 3
+#define MAX_BINS 8
 
 bool nkhImread(Mat &dst, string fileName, bool color=false)
 {
@@ -58,8 +62,8 @@ bool nkhImread(Mat &dst, string fileName, bool color=false)
 Mat getDescriptors(Mat img)
 {
     //choose step & binSize
-    //TODO
-    int binSize= 3;
+    srand (time(NULL));
+    int binSize= (rand()%(MAX_BINS+1 - MIN_BINS))+ MIN_BINS;
     VlDsiftFilter *vlf = vl_dsift_new_basic(img.size().width, img.size().height, binSize*4 , binSize);//step, bin
     // transform image in cv::Mat to float vector
     std::vector<float> imgvec;
@@ -70,16 +74,15 @@ Mat getDescriptors(Mat img)
     }
     // call processing function of vl
     vl_dsift_process(vlf, &imgvec[0]);
-
     // echo number of keypoints found
-    //cout << vl_dsift_get_keypoint_num(vlf) << endl;
+    cout << "num of patches: " << vl_dsift_get_keypoint_num(vlf) << endl;
     //cout << "size is : " << vl_dsift_get_descriptor_size(vlf) << endl;
     int numKeys = vl_dsift_get_keypoint_num(vlf);
     int descrDim = vl_dsift_get_descriptor_size(vlf);
 
     float* arr = new float[descrDim * numKeys];
     copy(vl_dsift_get_descriptors(vlf), vl_dsift_get_descriptors(vlf) + numKeys*descrDim, arr);
-    Mat result = Mat(descrDim, numKeys, CV_32F, arr);
+    Mat result = Mat(numKeys, descrDim, CV_32F, arr);
     return result;
 }
 
@@ -87,24 +90,43 @@ int main(int argc, char *argv[])
 {
     if (argc == 2) 
     {
-        Mat descrs; 
+        Mat featuresUnclustered; 
+        //generate descriptors for each image
         for ( boost::filesystem::recursive_directory_iterator end, dir(argv[1]);
                 dir != end; ++dir ) {
             Mat img;
-            if (nkhImread(img, dir->path().string()))
+            if (nkhImread(img, dir->path().string())) //if exists
             {
-                //imshow(dir->path().filename().string(), img);
                 //add patches descriptors to unclustered codebook 
-                descrs.push_back(getDescriptors(img));
-
+                featuresUnclustered.push_back(getDescriptors(img));
             }
-            //generate sifts
-            //BOW Train
+            else
+            {
+                cerr << "file " << dir->path().string() << " does not exist!\n" ;
+            }
         }
+        //BOW Train
+        int dictionarySize=200;
+        //define Term Criteria
+        TermCriteria tc(CV_TERMCRIT_ITER,100,0.001);
+        //retries number
+        int retries=1;
+        //necessary flags
+        int flags=KMEANS_PP_CENTERS;
+        //Create the BoW (or BoF) trainer : Make sure you have enough images to
+        // generate a number of pathces more than dictionarySize or you'll get an
+        // Assertion failed (N >= K) in kmeans
+        BOWKMeansTrainer bowTrainer(dictionarySize,tc,retries,flags);
+        //cluster the feature vectors
+        Mat dictionary=bowTrainer.cluster(featuresUnclustered);    
+        //store the vocabulary
+        FileStorage fs("dictionary.yml", FileStorage::WRITE);
+        fs << "vocabulary" << dictionary;
+        fs.release();
     }
     else
     {
-        printf("The usage is %s .\n",argv[0]);
+        printf("The usage is %s ImageFile .\n",argv[0]);
     }
     return 0;
 }
