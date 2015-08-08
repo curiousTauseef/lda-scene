@@ -3,9 +3,9 @@ CC=g++
 CFLAGS+=`pkg-config --cflags opencv`
 CFLAGS+= -std=c++11
 LDFLAGS+=`pkg-config --libs opencv` 
-LDFLAGS+= -lboost_system -lboost_filesystem -lvl
+LDFLAGS+= -lboost_system -lboost_filesystem
 
-PROG=codeword-gen
+PROG=inference
 OBJS=$(PROG).o
 
 FILE_OUT="$(PROG).out"

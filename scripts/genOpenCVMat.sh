@@ -5,5 +5,6 @@ inFile="$1"
 rows=`cat "$inFile" | wc -l`
 cols=`cat "$inFile" | head -1 | wc -w`
 data=`cat trainedModels/kitchen.alpha | while read a ; do echo $a ; done | tr ' ' ','`
+tag=${inFile##*/}
 
-cat "./scripts/opencvMatrix-template.yml" |  sed "s/ROWS/$rows/g" |  sed "s/COLS/$cols/g" | sed "s/DATA/$data/g" > "$inFile".yml
+cat "./scripts/opencvMatrix-template.yml" |  sed "s/ROWS/$rows/g" |  sed "s/COLS/$cols/g"  | sed "s/DATA/$data/g" | sed "s/TAG/$tag/g" > "$inFile".yml

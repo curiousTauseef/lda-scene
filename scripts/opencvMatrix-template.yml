@@ -1,5 +1,5 @@
 %YAML:1.0
-kitchen_image_0135: !!opencv-matrix
+TAG: !!opencv-matrix
    rows: ROWS
    cols: COLS
    dt: f
