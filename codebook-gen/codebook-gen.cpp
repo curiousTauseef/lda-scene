@@ -102,6 +102,10 @@ int main(int argc, char *argv[])
             Mat img;
             if (nkhImread(img, dir->path().string())) //if image exists
             {
+                //preprocess
+                GaussianBlur( img, img, Size(5, 5), 1,1 );
+                normalize(img,img,0,255,CV_MINMAX);
+
                 //add patches descriptors to unclustered codebook 
                 cout << "Processing " << dir->path().string() << " ...\n" ; 
                 featuresUnclustered.push_back(getDescriptors(img));

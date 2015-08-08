@@ -1,7 +1,7 @@
 # Choose training set, 50 images from eash category: fei-fei, CVPR 2005
 # You can run these command in the project root directory where this howto
 #   is placed, else do proper modifications.
-./scripts/chooseTrainSet.sh test/SceneClass13/ 50 test/sample/
+./scripts/chooseTrainSet.sh test/SceneClass13/ 100 test/sample/
 
 # Generate Codebook from training set, it will result in dictionary.yaml file
 ./codebook-gen/codebook-gen test/sample/

@@ -8,7 +8,7 @@ LDFLAGS+= -lboost_system -lboost_filesystem
 PROG=matrixMul
 OBJS=$(PROG).o
 
-FILE_OUT="$(PROG).out"
+FILE_OUT="$(PROG)"
 
 .PHONY: all clean
 	$(PROG): $(OBJS)
