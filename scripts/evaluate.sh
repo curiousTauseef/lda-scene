@@ -35,7 +35,7 @@ do
     #then
     #    wait $PID
     #fi
-    echo -n "$counter/$total"
+    echo -n "-------------------------- $counter/$total --------------------------"
     ((counter++))
     echo -ne "\r"
 done 
