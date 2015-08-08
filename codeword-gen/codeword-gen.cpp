@@ -162,7 +162,7 @@ int main(int argc, char *argv[])
             }
             printf("\n");
             // Normalize image descriptor.
-            //bowDescriptor /= keypointDescriptors.size().height;
+           // bowDescriptor /= keypointDescriptors.size().height;
             //********************** nkhEnd compute bowDescriptor **********************//
             if(genYaml)
             {

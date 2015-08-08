@@ -116,9 +116,9 @@ int main(int argc, char *argv[])
             }
         }
         //BOW Train
-        int dictionarySize=200;
+        int dictionarySize=150;
         //define Term Criteria
-        TermCriteria tc(CV_TERMCRIT_ITER,100,0.001);
+        TermCriteria tc(CV_TERMCRIT_ITER,300,0.000001);
         //retries number
         int retries=1;
         //necessary flags
