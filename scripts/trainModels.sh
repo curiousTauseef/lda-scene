@@ -1,4 +1,4 @@
-# Usage: ./trainModels dataDirectory outputDirectory
+# Usage: ./scripts/trainModels dataDirectory outputDirectory
 
 dataDir="$1" #consists data files generated for each category (BOW data like [wordIndex]:[count])
 outDir="$2" #output directory in which training models will be created
@@ -9,6 +9,8 @@ do
     data="${i##*/}"
     category="${data%%.*}"
     ./lda-0.2/lda -N $latentVariables "$i" "$outDir/$category"
+    ./scripts/genOpenCVMat.sh "$outDir/$category.alpha"
+    ./scripts/genOpenCVMat.sh "$outDir/$category.beta" 
 done
 
 
