@@ -38,10 +38,18 @@ int main(int argc, char *argv[])
     if (argc == 4) 
     {
         FileStorage alphaFS(argv[1], FileStorage::READ);
+        FileStorage betaFS(argv[2], FileStorage::READ);
+        FileStorage imgFS(argv[3], FileStorage::READ);
+
         boost::filesystem::path alphaPath(argv[1]);
-        Mat alpha;
+        boost::filesystem::path betaPath(argv[2]);
+        boost::filesystem::path imgPath(argv[3]);
+        Mat alpha, beta, img;
         alphaFS[alphaPath.stem().string()] >> alpha;
-        cout << alpha << endl;
+        betaFS[betaPath.stem().string()] >> beta;
+        imgFS[imgPath.stem().string()] >> img;
+
+        cout << alpha << endl << beta << endl << img << endl;
         alphaFS.release();
 
 
