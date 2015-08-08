@@ -21,7 +21,7 @@ for i in `find $testDir/* -type f`
 do 
     category="`echo $i | rev | cut -d'/' -f2 | rev`"
     catRes=`./scripts/inference.sh "$i" "$modelsDir" "$dictionary" | tail -1 | cut -f1`
-    echo -ne "$category:$catRes\t "
+    echo -ne "$category:$catRes  "
     if [ "$category" = "$catRes" ]
     then 
         echo 1 >> ./$date ;

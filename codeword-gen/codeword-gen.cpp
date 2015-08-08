@@ -97,8 +97,8 @@ int main(int argc, char *argv[])
         if (nkhImread(img, string(argv[1]))) //if image exists
         {
             //preprocess
-            GaussianBlur( img, img, Size(5, 5), 1,1 );
-            normalize(img,img,0,255,CV_MINMAX);
+            //GaussianBlur( img, img, Size(5, 5), 1,1 );
+            //normalize(img,img,0,255,CV_MINMAX);
 
             //*************************** nkhStart BOW ***************************/ 
 

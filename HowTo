@@ -19,4 +19,5 @@
 # Choose test set
 ./scripts/chooseTestSet.sh ./test/SceneClass13/ ./test/sample/ ./test/tests/  
 
-
+# Evaluate
+./scripts/evaluate.sh test/tests/ trainedModels/ dictionary.yml
