@@ -15,3 +15,8 @@
 
 # Test an image:
 ./scripts/inference.sh ./test/sample/kitchen/image_0001.jpg ./trainedModels/ dictionary.yml 
+
+# Choose test set
+./scripts/chooseTestSet.sh ./test/SceneClass13/ ./test/sample/ ./test/tests/  
+
+
