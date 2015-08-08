@@ -13,4 +13,5 @@
 # Train for all categories
 ./scripts/trainModels.sh ./data/ ./trainedModels/
 
- 
+# Test an image:
+./scripts/inference.sh ./test/sample/kitchen/image_0001.jpg ./trainedModels/ dictionary.yml 
