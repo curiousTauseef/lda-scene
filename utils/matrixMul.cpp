@@ -49,6 +49,9 @@ int main(int argc, char *argv[])
         betaFS[betaPath.stem().string()] >> beta;
         imgFS[imgPath.stem().string()] >> img;
 
+        Scalar alphaSum = sum(alpha);
+        
+        alpha /= alphaSum[0];
         /*
         printf("Alpha %d*%d , Beta %d*%d , Img %d*%d \n", alpha.rows, alpha.cols, beta.rows, beta.cols, 
                 img.rows, img.cols);
