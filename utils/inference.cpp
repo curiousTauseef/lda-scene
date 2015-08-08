@@ -48,8 +48,9 @@ int main(int argc, char *argv[])
         alphaFS[alphaPath.stem().string()] >> alpha;
         betaFS[betaPath.stem().string()] >> beta;
         imgFS[imgPath.stem().string()] >> img;
-
-        cout << alpha << endl << beta << endl << img << endl;
+        cout << beta;
+        printf("Alpha %d*%d , Beta %d*%d , Img %d*%d \n", alpha.rows, alpha.cols, beta.rows, beta.cols, 
+                img.rows, img.cols);
         alphaFS.release();
 
 

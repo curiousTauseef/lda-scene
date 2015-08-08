@@ -3,4 +3,4 @@ TAG: !!opencv-matrix
    rows: ROWS
    cols: COLS
    dt: f
-   data: [ DATA ]
+   data: [ 
