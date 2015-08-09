@@ -40,8 +40,8 @@ extern "C" {
       #include <vl/dsift.h>
 }
 
-#define MIN_BINS 3
-#define MAX_BINS 8
+#define MIN_BINS 10
+#define MAX_BINS 30
 
 bool nkhImread(Mat &dst, string fileName, bool color=false)
 {
@@ -64,7 +64,7 @@ Mat getDescriptors(Mat img)
     //choose step & binSize
     srand (time(NULL));
     int binSize= (rand()%(MAX_BINS+1 - MIN_BINS))+ MIN_BINS;
-    VlDsiftFilter *vlf = vl_dsift_new_basic(img.size().width, img.size().height, binSize*4 , binSize);//step, bin
+    VlDsiftFilter *vlf = vl_dsift_new_basic(img.size().width, img.size().height, binSize/* 4 */ , binSize);//step, bin
     // transform image in cv::Mat to float vector
     std::vector<float> imgvec;
     for (int i = 0; i < img.rows; ++i){
