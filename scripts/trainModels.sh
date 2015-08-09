@@ -8,7 +8,7 @@ for i in `find $dataDir/* -maxdepth 1 -iname "*.data"`
 do
     data="${i##*/}"
     category="${data%%.*}"
-    ./lda-0.2/lda -N $latentVariables "$i" "$outDir/$category"
+    ./lda-0.2/lda -N $latentVariables -I 100 -D 20  "$i" "$outDir/$category"
     ./scripts/genOpenCVMat.sh "$outDir/$category.alpha"
     ./scripts/genOpenCVMat.sh "$outDir/$category.beta" 
 done
